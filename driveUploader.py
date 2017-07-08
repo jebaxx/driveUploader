@@ -62,6 +62,8 @@ file_queue = {}		# auto captured jpeg file queue
 
 while True:
 
+  try:
+
     ###############################################################
     # Watch spool directory
     logger.debug("### Check SPOOL ###")	#####
@@ -237,6 +239,11 @@ while True:
 	else:
 	    logger.debug(timeStamp + " : stay in the meta_data_queue");
 
+  except: HttpError:
+    import traceback
+    logger.error(traceback.print_exc())
     time.sleep(20)
+
+  time.sleep(20)
 
 ###############################################################
