@@ -239,7 +239,7 @@ while True:
 	else:
 	    logger.debug(timeStamp + " : stay in the meta_data_queue");
 
-  except: HttpError:
+  except HttpError:
     import traceback
     logger.error(traceback.print_exc())
     time.sleep(20)
