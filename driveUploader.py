@@ -129,7 +129,7 @@ while True:
 
 	##### Exception case of the _spool usage - - - sens_log2.csv file isn't a target of upload
 	if base_f == "sens_log2.csv":
-            logger.debug("sens_log2.csv should be ignored.")
+            #logger.debug("sens_log2.csv should be ignored.")
 	    continue
 
 	##### the case of remote execution command LOG files
@@ -222,7 +222,7 @@ while True:
 
     ###############################################################
     # Timeout check of the meta-data queue entry
-    logger.debug("check meta_data queue")	#####
+    #logger.debug("check meta_data queue")	#####
 
     for timeStamp in meta_data_queue.copy():    # Since Queue contents may be deleted duaring a italation, use a copy of the queue for loop. itaration.
 
