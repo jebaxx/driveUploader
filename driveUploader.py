@@ -241,6 +241,7 @@ while True:
 
   except HttpError:
     import traceback
+    logger.error("HttpError exception was captured")
     logger.error(traceback.print_exc())
     time.sleep(20)
 
