@@ -10,27 +10,46 @@ import glob
 import re
 
 ###############################################################
-# Initialize logger
+# Specific Log filter
 
 import logging
 import logging.handlers
 
-# setup root logger
-logger = logging.getLogger("")
-logger.setLevel(logging.DEBUG)
+class specificFilter(logging.Filter):
+    def filter(self, record):
+    	s = str(record.msg)
+	c = re.search("URL being requested:", s) is None
+	c = c and re.search(" takes at most 2 positional arguments", s) is None
+	c = c and re.search("### ", s) is None
+#    	print "&&&&&&"
+#    	print s + " ...["+str(c)+"]"
+#    	print "&&&&&&"
+	return(c)
+
+###############################################################
+# Initialize logger
+
 
 h1 = logging.StreamHandler()
 h1.setLevel(logging.DEBUG)
 h1.setFormatter(logging.Formatter('%(asctime)s : %(levelname)s [ %(funcName)s ] %(message)s'))
-logger.addHandler(h1)
+h1.addFilter(specificFilter())
 
 h2 = logging.handlers.SysLogHandler()
 h2.setLevel(logging.INFO)
 h2.setFormatter(logging.Formatter('%(levelname)s [ %(funcName)s ] %(message)s'))
+h2.addFilter(specificFilter())
+
+# setup root logger
+logger = logging.getLogger("")
+logger.setLevel(logging.DEBUG)
+logger.addHandler(h1)
 logger.addHandler(h2)
+# logger.addFilter(specificFilter(""))	#! every record are passed
 
 # setup module logger
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("drUp")
+# logger.addFilter(specificFilter("drUp"))	#! record only from a main module are filtered.
 
 ###############################################################
 # Initialize driveLibrary
@@ -239,7 +258,7 @@ while True:
 	else:
 	    logger.debug(timeStamp + " : stay in the meta_data_queue");
 
-  except HttpError:
+  except Exception:
     import traceback
     logger.error("HttpError exception was captured")
     logger.error(traceback.print_exc())
